@@ -14,161 +14,54 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Custom CSS — Tufin-inspired dark blue theme
+# Custom CSS — Tufin dark theme with full visibility fix
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown(
     """
     <style>
-    /* ── Google Font ── */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    /* ── Root palette ── */
     :root {
-        --tufin-dark:    #0a1628;
-        --tufin-navy:    #0d2045;
-        --tufin-blue:    #1a4b8c;
-        --tufin-accent:  #2e7df7;
-        --tufin-bright:  #5aa3ff;
-        --tufin-teal:    #00c2cb;
-        --tufin-text:    #e8edf5;
-        --tufin-muted:   #8fa3c0;
-        --tufin-success: #22c55e;
-        --tufin-error:   #ef4444;
-        --tufin-warning: #f59e0b;
-        --card-bg:       #111f38;
-        --card-border:   #1e3a6e;
+        --t-dark:    #0a1628;
+        --t-navy:    #0d2045;
+        --t-blue:    #1a4b8c;
+        --t-accent:  #2e7df7;
+        --t-bright:  #5aa3ff;
+        --t-teal:    #00c2cb;
+        --t-text:    #e8edf5;
+        --t-muted:   #8fa3c0;
+        --t-success: #22c55e;
+        --t-error:   #ef4444;
+        --t-warn:    #f59e0b;
+        --card-bg:   #111f38;
+        --card-bdr:  #1e3a6e;
     }
 
-    /* ── Global ── */
-    html, body, [class*="css"] {
+    html, body, [class*="css"], .stMarkdown, .stMarkdown p,
+    .stMarkdown span, p, span, label, div {
         font-family: 'Inter', sans-serif !important;
-        color: var(--tufin-text) !important;
+        color: var(--t-text) !important;
     }
     .stApp {
-        background: linear-gradient(135deg, var(--tufin-dark) 0%, var(--tufin-navy) 100%) !important;
+        background: linear-gradient(135deg, var(--t-dark) 0%, var(--t-navy) 100%) !important;
         min-height: 100vh;
     }
 
     /* ── Sidebar ── */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #0b1a30 0%, #0d2045 100%) !important;
-        border-right: 1px solid var(--card-border) !important;
+        border-right: 1px solid var(--card-bdr) !important;
     }
-    [data-testid="stSidebar"] * {
-        color: var(--tufin-text) !important;
-    }
-    [data-testid="stSidebar"] .stMultiSelect [data-baseweb="tag"] {
-        background-color: var(--tufin-blue) !important;
-    }
+    [data-testid="stSidebar"] * { color: var(--t-text) !important; }
 
     /* ── Headings ── */
-    h1 {
-        color: var(--tufin-bright) !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.5px;
-    }
-    h2 {
-        color: var(--tufin-teal) !important;
-        font-weight: 600 !important;
-    }
-    h3 {
-        color: var(--tufin-bright) !important;
-        font-weight: 600 !important;
-    }
+    h1 { color: var(--t-bright) !important; font-weight: 700 !important; }
+    h2 { color: var(--t-teal)  !important; font-weight: 600 !important; }
+    h3 { color: var(--t-bright) !important; font-weight: 600 !important; }
 
-    /* ── Cards ── */
-    .quiz-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 14px;
-        padding: 28px 32px;
-        margin: 12px 0;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-    }
-    .question-text {
-        font-size: 1.15rem;
-        font-weight: 500;
-        color: var(--tufin-text);
-        line-height: 1.6;
-        margin-bottom: 6px;
-    }
-    .category-badge {
-        display: inline-block;
-        background: rgba(46,125,247,0.18);
-        border: 1px solid rgba(46,125,247,0.4);
-        color: var(--tufin-bright);
-        font-size: 0.72rem;
-        font-weight: 600;
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-        padding: 3px 10px;
-        border-radius: 20px;
-        margin-bottom: 16px;
-    }
-
-    /* ── Feedback boxes ── */
-    .feedback-correct {
-        background: rgba(34,197,94,0.12);
-        border: 1px solid rgba(34,197,94,0.45);
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-top: 16px;
-    }
-    .feedback-incorrect {
-        background: rgba(239,68,68,0.12);
-        border: 1px solid rgba(239,68,68,0.45);
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-top: 16px;
-    }
-    .feedback-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 6px;
-    }
-    .feedback-explanation {
-        font-size: 0.9rem;
-        color: #b8cce4;
-        line-height: 1.55;
-        margin-top: 8px;
-    }
-    .correct-answer-label {
-        font-size: 0.85rem;
-        color: var(--tufin-success);
-        font-weight: 600;
-        margin-top: 8px;
-    }
-
-    /* ── Score card ── */
-    .score-card {
-        background: linear-gradient(135deg, #0d2045 0%, #112240 100%);
-        border: 1px solid var(--tufin-blue);
-        border-radius: 18px;
-        padding: 36px;
-        text-align: center;
-        margin: 20px 0;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    }
-    .score-number {
-        font-size: 4rem;
-        font-weight: 800;
-        color: var(--tufin-bright);
-        line-height: 1;
-    }
-    .score-label {
-        font-size: 1rem;
-        color: var(--tufin-muted);
-        margin-top: 4px;
-    }
-    .score-pct {
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-top: 10px;
-    }
-
-    /* ── Progress bar override ── */
+    /* ── Progress bar ── */
     .stProgress > div > div > div > div {
-        background: linear-gradient(90deg, var(--tufin-accent) 0%, var(--tufin-teal) 100%) !important;
+        background: linear-gradient(90deg, var(--t-accent) 0%, var(--t-teal) 100%) !important;
         border-radius: 4px;
     }
     .stProgress > div > div {
@@ -176,10 +69,10 @@ st.markdown(
         border-radius: 4px;
     }
 
-    /* ── Buttons ── */
+    /* ── All buttons ── */
     .stButton > button {
-        background: linear-gradient(135deg, var(--tufin-accent) 0%, #1a6aef 100%) !important;
-        color: white !important;
+        background: linear-gradient(135deg, var(--t-accent) 0%, #1a6aef 100%) !important;
+        color: #ffffff !important;
         border: none !important;
         border-radius: 8px !important;
         font-weight: 600 !important;
@@ -191,70 +84,187 @@ st.markdown(
     .stButton > button:hover {
         transform: translateY(-1px) !important;
         box-shadow: 0 4px 20px rgba(46,125,247,0.55) !important;
-        opacity: 0.95 !important;
+        opacity: 0.92 !important;
     }
-    .stButton > button:active {
-        transform: translateY(0px) !important;
+    .stButton > button p { color: #ffffff !important; }
+
+    /* ── Option card buttons — unselected ── */
+    .opt-btn-wrap .stButton > button {
+        background: #111f38 !important;
+        border: 1.5px solid #1e3a6e !important;
+        border-radius: 10px !important;
+        color: #e8edf5 !important;
+        font-weight: 500 !important;
+        font-size: 1rem !important;
+        text-align: left !important;
+        padding: 14px 18px !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        justify-content: flex-start !important;
+    }
+    .opt-btn-wrap .stButton > button:hover {
+        background: rgba(46,125,247,0.14) !important;
+        border-color: var(--t-accent) !important;
+        transform: none !important;
+        box-shadow: 0 0 0 1px rgba(46,125,247,0.4) !important;
+    }
+    .opt-btn-wrap .stButton > button p { color: #e8edf5 !important; }
+
+    /* ── Option card buttons — selected (before submit) ── */
+    .opt-btn-selected .stButton > button {
+        background: rgba(46,125,247,0.22) !important;
+        border: 2px solid #2e7df7 !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 0 2px rgba(46,125,247,0.25) !important;
+    }
+    .opt-btn-selected .stButton > button p { color: #ffffff !important; }
+
+    /* ── Option card buttons — correct (after submit) ── */
+    .opt-btn-correct .stButton > button {
+        background: rgba(34,197,94,0.18) !important;
+        border: 2px solid #22c55e !important;
+        color: #ffffff !important;
+        cursor: default !important;
+    }
+    .opt-btn-correct .stButton > button p { color: #ffffff !important; }
+
+    /* ── Option card buttons — wrong answer chosen ── */
+    .opt-btn-wrong .stButton > button {
+        background: rgba(239,68,68,0.18) !important;
+        border: 2px solid #ef4444 !important;
+        color: #ffffff !important;
+        cursor: default !important;
+    }
+    .opt-btn-wrong .stButton > button p { color: #ffffff !important; }
+
+    /* ── Option card buttons — neutral (other options after submit) ── */
+    .opt-btn-neutral .stButton > button {
+        background: rgba(255,255,255,0.03) !important;
+        border: 1px solid #1a2e50 !important;
+        color: #4a6080 !important;
+        cursor: default !important;
+        opacity: 0.6 !important;
+    }
+    .opt-btn-neutral .stButton > button p { color: #4a6080 !important; }
+
+    /* ── Quiz card ── */
+    .quiz-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-bdr);
+        border-radius: 14px;
+        padding: 26px 30px;
+        margin: 10px 0 18px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    .question-text {
+        font-size: 1.12rem !important;
+        font-weight: 500 !important;
+        color: #e8edf5 !important;
+        line-height: 1.65 !important;
+        margin: 0 !important;
+    }
+    .category-badge {
+        display: inline-block;
+        background: rgba(46,125,247,0.15);
+        border: 1px solid rgba(46,125,247,0.4);
+        color: var(--t-bright) !important;
+        font-size: 0.72rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-bottom: 14px;
+    }
+    .options-label {
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        color: var(--t-muted) !important;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        margin: 0 0 8px !important;
     }
 
-    /* ── Radio buttons ── */
-    .stRadio > div {
-        gap: 8px !important;
+    /* ── Feedback boxes ── */
+    .feedback-correct {
+        background: rgba(34,197,94,0.10);
+        border: 1px solid rgba(34,197,94,0.4);
+        border-left: 4px solid #22c55e;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 14px;
     }
-    .stRadio > div > label {
-        background: rgba(255,255,255,0.04) !important;
-        border: 1px solid var(--card-border) !important;
-        border-radius: 8px !important;
-        padding: 10px 16px !important;
-        width: 100% !important;
-        cursor: pointer !important;
-        transition: all 0.15s ease !important;
-        color: var(--tufin-text) !important;
+    .feedback-incorrect {
+        background: rgba(239,68,68,0.10);
+        border: 1px solid rgba(239,68,68,0.4);
+        border-left: 4px solid #ef4444;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 14px;
     }
-    .stRadio > div > label:hover {
-        background: rgba(46,125,247,0.12) !important;
-        border-color: var(--tufin-accent) !important;
+    .feedback-title {
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 6px !important;
+    }
+    .feedback-explanation {
+        font-size: 0.9rem !important;
+        color: #b8cce4 !important;
+        line-height: 1.6 !important;
+        margin-top: 8px !important;
+    }
+    .correct-answer-label {
+        font-size: 0.88rem !important;
+        color: #22c55e !important;
+        font-weight: 600 !important;
+        margin-top: 6px !important;
+    }
+
+    /* ── Score card ── */
+    .score-card {
+        background: linear-gradient(135deg, #0d2045 0%, #112240 100%);
+        border: 1px solid var(--t-blue);
+        border-radius: 18px;
+        padding: 36px;
+        text-align: center;
+        margin: 20px 0;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .score-number {
+        font-size: 4rem !important;
+        font-weight: 800 !important;
+        color: var(--t-bright) !important;
+        line-height: 1 !important;
+    }
+    .score-label {
+        font-size: 1rem !important;
+        color: var(--t-muted) !important;
+        margin-top: 4px !important;
     }
 
     /* ── Selectbox / multiselect ── */
     .stSelectbox > div > div,
     .stMultiSelect > div > div {
         background: #0d1f3c !important;
-        border: 1px solid var(--card-border) !important;
-        color: var(--tufin-text) !important;
-    }
-
-    /* ── Table ── */
-    .stDataFrame, table {
-        background: var(--card-bg) !important;
-    }
-
-    /* ── Dividers ── */
-    hr {
-        border-color: var(--card-border) !important;
-        margin: 24px 0 !important;
+        border: 1px solid var(--card-bdr) !important;
+        color: var(--t-text) !important;
     }
 
     /* ── Metrics ── */
-    [data-testid="stMetricValue"] {
-        color: var(--tufin-bright) !important;
-        font-weight: 700 !important;
-    }
-    [data-testid="stMetricLabel"] {
-        color: var(--tufin-muted) !important;
-    }
+    [data-testid="stMetricValue"] { color: var(--t-bright) !important; font-weight: 700 !important; }
+    [data-testid="stMetricLabel"] { color: var(--t-muted) !important; }
 
     /* ── Expander ── */
     .streamlit-expanderHeader {
         background: var(--card-bg) !important;
-        border: 1px solid var(--card-border) !important;
+        border: 1px solid var(--card-bdr) !important;
         border-radius: 8px !important;
-        color: var(--tufin-bright) !important;
+        color: var(--t-bright) !important;
         font-weight: 600 !important;
     }
     .streamlit-expanderContent {
         background: rgba(13,32,69,0.6) !important;
-        border: 1px solid var(--card-border) !important;
+        border: 1px solid var(--card-bdr) !important;
         border-top: none !important;
     }
 
@@ -266,87 +276,54 @@ st.markdown(
         padding: 32px 36px;
         text-align: center;
         margin-bottom: 24px;
-        position: relative;
-        overflow: hidden;
-    }
-    .welcome-banner::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle at 30% 50%, rgba(46,125,247,0.08) 0%, transparent 60%);
-        pointer-events: none;
     }
     .welcome-subtitle {
-        color: var(--tufin-muted);
-        font-size: 0.95rem;
-        margin-top: 8px;
-        line-height: 1.5;
+        color: var(--t-muted) !important;
+        font-size: 0.95rem !important;
+        margin-top: 8px !important;
+        line-height: 1.5 !important;
     }
 
-    /* ── Instruction list ── */
+    /* ── Instruction box ── */
     .instruction-box {
         background: rgba(255,255,255,0.03);
-        border: 1px solid var(--card-border);
+        border: 1px solid var(--card-bdr);
         border-radius: 12px;
         padding: 20px 24px;
         margin: 16px 0;
     }
     .instruction-box li {
-        color: var(--tufin-muted);
+        color: var(--t-muted) !important;
         margin-bottom: 8px;
         font-size: 0.92rem;
         line-height: 1.5;
     }
-    .instruction-box li span {
-        color: var(--tufin-text);
-    }
+    .instruction-box li span { color: var(--t-text) !important; }
 
-    /* ── Review item ── */
+    /* ── Review ── */
     .review-item {
         background: var(--card-bg);
-        border: 1px solid var(--card-border);
+        border: 1px solid var(--card-bdr);
         border-radius: 12px;
         padding: 20px 24px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
     }
-    .review-correct {
-        border-left: 4px solid var(--tufin-success) !important;
-    }
-    .review-incorrect {
-        border-left: 4px solid var(--tufin-error) !important;
-    }
+    .review-correct { border-left: 4px solid var(--t-success) !important; }
+    .review-incorrect { border-left: 4px solid var(--t-error) !important; }
     .review-q-num {
-        font-size: 0.75rem;
-        color: var(--tufin-muted);
-        font-weight: 600;
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-        margin-bottom: 6px;
+        font-size: 0.72rem !important; color: var(--t-muted) !important;
+        font-weight: 600 !important; letter-spacing: 0.6px;
+        text-transform: uppercase; margin-bottom: 6px !important;
     }
     .review-q-text {
-        font-size: 1rem;
-        font-weight: 500;
-        margin-bottom: 10px;
-        line-height: 1.5;
+        font-size: 1rem !important; font-weight: 500 !important;
+        margin-bottom: 10px !important; line-height: 1.5 !important;
     }
-    .review-answer-row {
-        font-size: 0.875rem;
-        margin: 3px 0;
-    }
-    .option-correct {
-        color: var(--tufin-success);
-        font-weight: 600;
-    }
-    .option-wrong {
-        color: var(--tufin-error);
-        font-weight: 600;
-    }
-    .option-neutral {
-        color: var(--tufin-muted);
-    }
+    .option-correct { color: var(--t-success) !important; font-weight: 600 !important; }
+    .option-wrong   { color: var(--t-error)   !important; font-weight: 600 !important; }
+    .option-neutral { color: var(--t-muted)   !important; }
+
+    hr { border-color: var(--card-bdr) !important; margin: 24px 0 !important; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -356,11 +333,11 @@ st.markdown(
 # Session state initialisation
 # ─────────────────────────────────────────────────────────────────────────────
 DEFAULTS = {
-    "page": "home",  # home | quiz | results | review
-    "questions": [],  # active question list for this session
-    "current_idx": 0,  # index into active list
-    "answers": {},  # {idx: selected_option_text}
-    "submitted": {},  # {idx: True}  — whether this Q was submitted
+    "page": "home",
+    "questions": [],
+    "current_idx": 0,
+    "answers": {},
+    "submitted": {},
     "score": 0,
     "selected_categories": list(ALL_CATEGORIES),
     "question_count": "20",
@@ -377,11 +354,8 @@ def start_quiz():
     cats = st.session_state.selected_categories
     pool = [q for q in QUESTIONS if q["category"] in cats]
     random.shuffle(pool)
-    count_raw = st.session_state.question_count
-    if count_raw == "All":
-        count = len(pool)
-    else:
-        count = min(int(count_raw), len(pool))
+    raw = st.session_state.question_count
+    count = len(pool) if raw == "All" else min(int(raw), len(pool))
     st.session_state.questions = pool[:count]
     st.session_state.current_idx = 0
     st.session_state.answers = {}
@@ -402,29 +376,27 @@ def go_results():
     st.session_state.page = "results"
 
 
-def letter_for(idx: int) -> str:
-    return ["A", "B", "C", "D"][idx] if idx < 4 else "?"
+def letter_for(i: int) -> str:
+    return ["A", "B", "C", "D"][i] if i < 4 else "?"
 
 
-def compute_score():
-    total = 0
-    for i, q in enumerate(st.session_state.questions):
-        if i in st.session_state.answers:
-            if st.session_state.answers[i] == q["answer"]:
-                total += 1
-    return total
+def compute_score() -> int:
+    return sum(
+        1
+        for i, q in enumerate(st.session_state.questions)
+        if st.session_state.answers.get(i) == q["answer"]
+    )
 
 
-def category_breakdown():
-    results = {}
+def category_breakdown() -> dict:
+    out = {}
     for i, q in enumerate(st.session_state.questions):
         cat = q["category"]
-        if cat not in results:
-            results[cat] = {"correct": 0, "total": 0}
-        results[cat]["total"] += 1
-        if i in st.session_state.answers and st.session_state.answers[i] == q["answer"]:
-            results[cat]["correct"] += 1
-    return results
+        out.setdefault(cat, {"correct": 0, "total": 0})
+        out[cat]["total"] += 1
+        if st.session_state.answers.get(i) == q["answer"]:
+            out[cat]["correct"] += 1
+    return out
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -433,12 +405,12 @@ def category_breakdown():
 with st.sidebar:
     st.markdown(
         """
-        <div style='text-align:center; padding: 8px 0 20px;'>
+        <div style='text-align:center;padding:8px 0 20px;'>
             <div style='font-size:2.4rem;'>🛡️</div>
-            <div style='font-size:1.05rem; font-weight:700; color:#5aa3ff; letter-spacing:0.5px;'>
+            <div style='font-size:1.05rem;font-weight:700;color:#5aa3ff;letter-spacing:0.5px;'>
                 Tufin QA Prep
             </div>
-            <div style='font-size:0.78rem; color:#8fa3c0; margin-top:2px;'>
+            <div style='font-size:0.78rem;color:#8fa3c0;margin-top:2px;'>
                 Interview Practice Quiz
             </div>
         </div>
@@ -448,13 +420,13 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown(
-        "<p style='font-size:0.8rem; font-weight:600; color:#5aa3ff; "
-        "letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px;'>"
+        "<p style='font-size:0.8rem;font-weight:600;color:#5aa3ff;"
+        "letter-spacing:0.8px;text-transform:uppercase;margin-bottom:6px;'>"
         "📚 Categories</p>",
         unsafe_allow_html=True,
     )
     selected_cats = st.multiselect(
-        "Select categories",
+        "categories",
         options=ALL_CATEGORIES,
         default=st.session_state.selected_categories,
         label_visibility="collapsed",
@@ -463,43 +435,44 @@ with st.sidebar:
         st.session_state.selected_categories = selected_cats
 
     st.markdown(
-        "<p style='font-size:0.8rem; font-weight:600; color:#5aa3ff; "
-        "letter-spacing:0.8px; text-transform:uppercase; margin-top:16px; margin-bottom:6px;'>"
+        "<p style='font-size:0.8rem;font-weight:600;color:#5aa3ff;"
+        "letter-spacing:0.8px;text-transform:uppercase;margin-top:16px;margin-bottom:6px;'>"
         "🔢 Question Count</p>",
         unsafe_allow_html=True,
     )
     q_count = st.selectbox(
-        "Question count",
+        "count",
         options=["10", "15", "20", "All"],
         index=["10", "15", "20", "All"].index(st.session_state.question_count),
         label_visibility="collapsed",
     )
     st.session_state.question_count = q_count
 
-    # pool size info
     pool_size = len(
         [q for q in QUESTIONS if q["category"] in st.session_state.selected_categories]
     )
     st.markdown(
-        f"<p style='font-size:0.78rem; color:#8fa3c0; margin-top:6px;'>"
-        f"📊 {pool_size} questions available in selected categories</p>",
+        f"<p style='font-size:0.78rem;color:#8fa3c0;margin-top:6px;'>"
+        f"📊 {pool_size} questions in selected categories</p>",
         unsafe_allow_html=True,
     )
-
     st.markdown("---")
 
     if st.session_state.page != "home":
         if st.button("🏠 Home", use_container_width=True):
             go_home()
+            st.rerun()
         st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
 
     if st.session_state.page in ("results", "review"):
         if st.button("🔄 New Quiz", use_container_width=True):
             start_quiz()
+            st.rerun()
         st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
 
     st.markdown(
-        "<div style='margin-top:32px; font-size:0.72rem; color:#4a6080; text-align:center; line-height:1.6;'>"
+        "<div style='margin-top:32px;font-size:0.72rem;color:#4a6080;"
+        "text-align:center;line-height:1.6;'>"
         "Built for Tufin QA<br>Automation Engineer prep<br>"
         "<span style='color:#2e7df7;'>150+ questions · 6 categories</span>"
         "</div>",
@@ -514,18 +487,17 @@ if st.session_state.page == "home":
     st.markdown(
         """
         <div class='welcome-banner'>
-            <div style='font-size:2.8rem; margin-bottom:8px;'>🛡️</div>
-            <h1 style='margin:0; font-size:1.9rem;'>Tufin QA Interview Prep</h1>
+            <div style='font-size:2.8rem;margin-bottom:8px;'>🛡️</div>
+            <h1 style='margin:0;font-size:1.9rem;'>Tufin QA Interview Prep</h1>
             <p class='welcome-subtitle'>
-                Master QA fundamentals, networking, Java debugging, APIs, SQL, Check Point,
-                and behavioral strategy — all in one interactive quiz.
+                Master QA fundamentals, networking, Java debugging, APIs, SQL,
+                Check Point, and behavioral strategy — all in one interactive quiz.
             </p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # Stats row
     c1, c2, c3 = st.columns(3)
     with c1:
         st.metric("Total Questions", len(QUESTIONS))
@@ -535,16 +507,15 @@ if st.session_state.page == "home":
         st.metric("Topics Covered", "6")
 
     st.markdown("---")
-
     st.markdown("### 📋 How It Works")
     st.markdown(
         """
         <div class='instruction-box'>
-        <ul style='list-style:none; padding:0; margin:0;'>
-            <li>🎯 <span>Select which <b>categories</b> to include from the sidebar</span></li>
+        <ul style='list-style:none;padding:0;margin:0;'>
+            <li>🎯 <span>Select <b>categories</b> in the sidebar</span></li>
             <li>🔢 <span>Choose your <b>question count</b> (10 / 15 / 20 / All)</span></li>
-            <li>📝 <span>Answer each question using the <b>radio buttons</b> — one at a time</span></li>
-            <li>✅ <span>Submit each answer to see <b>immediate feedback</b> + explanation</span></li>
+            <li>📝 <span>Click an answer card, then hit <b>Submit</b></span></li>
+            <li>✅ <span>See <b>instant feedback</b> and explanation after each answer</span></li>
             <li>📊 <span>Review your <b>score breakdown</b> by category at the end</span></li>
             <li>🔄 <span>Questions are <b>randomly shuffled</b> every new quiz</span></li>
         </ul>
@@ -565,44 +536,38 @@ if st.session_state.page == "home":
     cols = st.columns(2)
     for i, cat in enumerate(ALL_CATEGORIES):
         icon = cat_icons.get(cat, "📌")
-        count = len([q for q in QUESTIONS if q["category"] == cat])
+        cnt = len([q for q in QUESTIONS if q["category"] == cat])
         cols[i % 2].markdown(
-            f"<div style='background:rgba(255,255,255,0.03); border:1px solid #1e3a6e; "
-            f"border-radius:8px; padding:10px 14px; margin-bottom:8px;'>"
+            f"<div style='background:rgba(255,255,255,0.03);border:1px solid #1e3a6e;"
+            f"border-radius:8px;padding:10px 14px;margin-bottom:8px;'>"
             f"<span style='font-size:1.1rem;'>{icon}</span> "
-            f"<span style='font-weight:600; color:#e8edf5;'>{cat}</span> "
-            f"<span style='color:#8fa3c0; font-size:0.83rem;'>({count} questions)</span>"
+            f"<span style='font-weight:600;color:#e8edf5;'>{cat}</span> "
+            f"<span style='color:#8fa3c0;font-size:0.83rem;'>({cnt} questions)</span>"
             f"</div>",
             unsafe_allow_html=True,
         )
 
     st.markdown("---")
 
-    # Validate selection
     pool_size = len(
         [q for q in QUESTIONS if q["category"] in st.session_state.selected_categories]
     )
     if not st.session_state.selected_categories:
-        st.warning(
-            "⚠️ Please select at least one category in the sidebar before starting."
-        )
+        st.warning("⚠️ Please select at least one category in the sidebar.")
     elif pool_size == 0:
-        st.warning("⚠️ No questions found for the selected categories.")
+        st.warning("⚠️ No questions found for selected categories.")
     else:
-        count_label = st.session_state.question_count
-        if count_label == "All":
-            quiz_size = pool_size
-        else:
-            quiz_size = min(int(count_label), pool_size)
+        raw = st.session_state.question_count
+        quiz_size = pool_size if raw == "All" else min(int(raw), pool_size)
         st.markdown(
-            f"<div style='text-align:center; color:#8fa3c0; font-size:0.9rem; margin-bottom:16px;'>"
+            f"<div style='text-align:center;color:#8fa3c0;font-size:0.9rem;margin-bottom:16px;'>"
             f"Ready to quiz on <b style='color:#5aa3ff;'>{quiz_size}</b> questions "
             f"from <b style='color:#5aa3ff;'>{len(st.session_state.selected_categories)}</b> categories"
             f"</div>",
             unsafe_allow_html=True,
         )
-        col_btn = st.columns([1, 2, 1])
-        with col_btn[1]:
+        _, mid, _ = st.columns([1, 2, 1])
+        with mid:
             if st.button("🚀 Start Quiz", use_container_width=True):
                 start_quiz()
                 st.rerun()
@@ -617,84 +582,184 @@ elif st.session_state.page == "quiz":
     total = len(questions)
 
     if total == 0:
-        st.error("No questions loaded. Please go home and start again.")
+        st.error("No questions loaded. Go home and start again.")
         st.button("🏠 Home", on_click=go_home)
         st.stop()
 
     q = questions[idx]
     already_submitted = idx in st.session_state.submitted
 
-    # ── Progress ──────────────────────────────────────────────────────────────
-    progress_val = (idx + (1 if already_submitted else 0)) / total
+    # ── Session-state key tracking which option is highlighted ────────────────
+    sel_key = f"pending_sel_{idx}"
+    if sel_key not in st.session_state:
+        # Restore previous selection if navigating back
+        st.session_state[sel_key] = st.session_state.answers.get(idx)
+
+    # ── Progress bar ──────────────────────────────────────────────────────────
+    done = len(st.session_state.submitted)
     st.markdown(
-        f"<div style='display:flex; justify-content:space-between; "
-        f"align-items:center; margin-bottom:4px;'>"
-        f"<span style='font-size:0.82rem; color:#8fa3c0;'>Question {idx + 1} of {total}</span>"
-        f"<span style='font-size:0.82rem; color:#8fa3c0;'>"
-        f"{idx}/{total} completed</span>"
+        f"<div style='display:flex;justify-content:space-between;"
+        f"align-items:center;margin-bottom:4px;'>"
+        f"<span style='font-size:0.82rem;color:#8fa3c0;'>Question {idx + 1} of {total}</span>"
+        f"<span style='font-size:0.82rem;color:#8fa3c0;'>{done}/{total} completed</span>"
         f"</div>",
         unsafe_allow_html=True,
     )
-    st.progress(progress_val)
+    st.progress((idx + (1 if already_submitted else 0)) / total)
     st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
 
     # ── Question card ─────────────────────────────────────────────────────────
     st.markdown(
         f"<div class='quiz-card'>"
         f"<div class='category-badge'>{q['category']}</div>"
-        f"<div class='question-text'>{q['question']}</div>"
+        f"<p class='question-text'>{q['question']}</p>"
         f"</div>",
         unsafe_allow_html=True,
     )
 
-    # ── Answer choices ────────────────────────────────────────────────────────
-    options_display = [f"{letter_for(i)}.  {opt}" for i, opt in enumerate(q["options"])]
-    # Map displayed label → raw option text
-    label_to_option = {
-        f"{letter_for(i)}.  {opt}": opt for i, opt in enumerate(q["options"])
-    }
+    # ── Answer option cards ───────────────────────────────────────────────────
+    # Each option is rendered as a styled full-width button.
+    # We track which option the user has clicked via session_state[sel_key].
+    # After submission the buttons are replaced by read-only styled divs.
 
-    current_selection_label = None
-    if idx in st.session_state.answers:
-        raw = st.session_state.answers[idx]
-        for lbl, opt in label_to_option.items():
-            if opt == raw:
-                current_selection_label = lbl
-                break
-
-    selected_label = st.radio(
-        "Choose your answer:",
-        options=options_display,
-        index=options_display.index(current_selection_label)
-        if current_selection_label
-        else None,
-        key=f"radio_{idx}",
-        disabled=already_submitted,
-        label_visibility="collapsed",
+    st.markdown(
+        "<p class='options-label'>Choose your answer</p>",
+        unsafe_allow_html=True,
     )
 
-    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+    correct_ans = q["answer"]
+    user_ans = st.session_state.answers.get(idx)
+    pending = st.session_state[sel_key]
 
-    # ── Submit / Next ─────────────────────────────────────────────────────────
-    col_l, col_r = st.columns([1, 1])
+    for i, opt in enumerate(q["options"]):
+        letter = letter_for(i)
 
-    if not already_submitted:
-        with col_l:
+        if already_submitted:
+            # ── Read-only result display ──────────────────────────────────────
+            if opt == correct_ans:
+                bg = "rgba(34,197,94,0.15)"
+                border = "2px solid #22c55e"
+                letter_color = "#22c55e"
+                icon = "✅"
+                text_color = "#e8edf5"
+            elif opt == user_ans:
+                bg = "rgba(239,68,68,0.15)"
+                border = "2px solid #ef4444"
+                letter_color = "#ef4444"
+                icon = "❌"
+                text_color = "#e8edf5"
+            else:
+                bg = "rgba(255,255,255,0.02)"
+                border = "1px solid #1a2e50"
+                letter_color = "#2e4060"
+                icon = ""
+                text_color = "#4a6080"
+
+            st.markdown(
+                f"<div style='"
+                f"background:{bg};"
+                f"border:{border};"
+                f"border-radius:10px;"
+                f"padding:14px 18px;"
+                f"margin:6px 0;"
+                f"display:flex;"
+                f"align-items:center;"
+                f"gap:14px;"
+                f"'>"
+                f"<span style='font-weight:700;font-size:1rem;color:{letter_color};"
+                f"min-width:22px;'>{letter}</span>"
+                f"<span style='font-size:0.98rem;color:{text_color};"
+                f"font-weight:500;line-height:1.45;flex:1;'>{opt}</span>"
+                f"<span style='font-size:1.1rem;'>{icon}</span>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            # ── Clickable option button ───────────────────────────────────────
+            is_selected = pending == opt
+
+            if is_selected:
+                bg = "rgba(46,125,247,0.20)"
+                border = "2px solid #2e7df7"
+                letter_color = "#2e7df7"
+                text_color = "#ffffff"
+                shadow = "0 0 0 3px rgba(46,125,247,0.20)"
+            else:
+                bg = "#111f38"
+                border = "1.5px solid #1e3a6e"
+                letter_color = "#5aa3ff"
+                text_color = "#e8edf5"
+                shadow = "none"
+
+            # Render a styled div for visual, then a transparent Streamlit
+            # button layered on top via negative margin so the whole row is
+            # clickable. We use a creative trick: render the div, then
+            # immediately render a full-width button BELOW and use CSS to
+            # make it merge visually. Instead we just render the button
+            # directly with the letter prefix — cleaner and reliable.
+            label_text = f"{letter}.   {opt}"
+
+            # We render the styled card using st.markdown, then place a
+            # near-invisible click-trigger button absolutely beneath it.
+            # Simpler: render the full option as a styled markdown card,
+            # and track click via a regular full-width button.
+
+            st.markdown(
+                f"<div style='"
+                f"background:{bg};"
+                f"border:{border};"
+                f"border-radius:10px;"
+                f"padding:14px 18px;"
+                f"margin:6px 0 0 0;"
+                f"display:flex;"
+                f"align-items:center;"
+                f"gap:14px;"
+                f"box-shadow:{shadow};"
+                f"cursor:pointer;"
+                f"transition:all 0.15s ease;"
+                f"'>"
+                f"<span style='font-weight:700;font-size:1rem;color:{letter_color};"
+                f"min-width:22px;'>{letter}</span>"
+                f"<span style='font-size:0.98rem;color:{text_color};"
+                f"font-weight:500;line-height:1.45;flex:1;'>{opt}</span>"
+                f"{'<span style="font-size:1rem;">🔵</span>' if is_selected else ''}"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+
+            # Thin "Select" button directly below the card, same width,
+            # minimal height — the user clicks it to register the selection.
+            st.markdown(
+                f"<style>"
+                f"div[data-testid='stButton']:has(button[kind='secondary']#sel_{idx}_{i}) > button {{"
+                f"  margin-top:-4px !important;"
+                f"}}"
+                f"</style>",
+                unsafe_allow_html=True,
+            )
+
+            # Use a compact, muted "select" button to register the click
+            select_css_wrap = "opt-btn-selected" if is_selected else "opt-btn-wrap"
+            st.markdown(
+                f"<div class='{select_css_wrap}' style='margin-top:-2px;'>",
+                unsafe_allow_html=True,
+            )
             if st.button(
-                "✅ Submit Answer", use_container_width=True, key=f"submit_{idx}"
+                f"{'✔  Selected' if is_selected else f'Select  {letter}'}",
+                key=f"sel_{idx}_{i}",
+                use_container_width=True,
             ):
-                if selected_label is None:
-                    st.warning("⚠️ Please select an answer before submitting.")
-                else:
-                    raw_answer = label_to_option[selected_label]
-                    st.session_state.answers[idx] = raw_answer
-                    st.session_state.submitted[idx] = True
-                    st.rerun()
-    else:
-        # Show feedback
-        user_raw = st.session_state.answers.get(idx, "")
-        is_correct = user_raw == q["answer"]
+                st.session_state[sel_key] = opt
+                st.rerun()
+            st.markdown("</div>", unsafe_allow_html=True)
 
+        st.markdown("<div style='height:2px'></div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+
+    # ── Feedback ──────────────────────────────────────────────────────────────
+    if already_submitted:
+        is_correct = user_ans == correct_ans
         if is_correct:
             st.markdown(
                 f"<div class='feedback-correct'>"
@@ -707,14 +772,14 @@ elif st.session_state.page == "quiz":
             st.markdown(
                 f"<div class='feedback-incorrect'>"
                 f"<div class='feedback-title' style='color:#ef4444;'>❌ Incorrect</div>"
-                f"<div class='correct-answer-label'>✔ Correct answer: {q['answer']}</div>"
+                f"<div class='correct-answer-label'>✔ Correct answer: {correct_ans}</div>"
                 f"<div class='feedback-explanation'>{q['explanation']}</div>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
 
-        st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
-
+        st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
+        col_l, col_r = st.columns(2)
         with col_l:
             if idx < total - 1:
                 if st.button(
@@ -727,13 +792,40 @@ elif st.session_state.page == "quiz":
                     st.session_state.score = compute_score()
                     st.session_state.page = "results"
                     st.rerun()
-
         with col_r:
             if st.button(
                 "🏠 Quit to Home", use_container_width=True, key=f"quit_{idx}"
             ):
                 go_home()
                 st.rerun()
+
+    else:
+        # ── Submit button ─────────────────────────────────────────────────────
+        col_l, col_r = st.columns(2)
+        with col_l:
+            submit_disabled = pending is None
+            if st.button(
+                "✅ Submit Answer",
+                use_container_width=True,
+                key=f"submit_{idx}",
+                disabled=submit_disabled,
+            ):
+                st.session_state.answers[idx] = pending
+                st.session_state.submitted[idx] = True
+                st.rerun()
+        with col_r:
+            if st.button(
+                "🏠 Quit to Home", use_container_width=True, key=f"quit_pre_{idx}"
+            ):
+                go_home()
+                st.rerun()
+
+        if pending is None:
+            st.markdown(
+                "<p style='font-size:0.82rem;color:#8fa3c0;margin-top:6px;'>"
+                "👆 Click an answer card above, then submit.</p>",
+                unsafe_allow_html=True,
+            )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -745,36 +837,24 @@ elif st.session_state.page == "results":
     score = compute_score()
     pct = round((score / total) * 100) if total else 0
 
-    # Emoji + message
     if pct >= 80:
-        emoji = "😎"
-        grade_label = "Excellent!"
-        grade_color = "#22c55e"
+        emoji, grade_label, grade_color = "😎", "Excellent!", "#22c55e"
         grade_msg = "You're ready for that Tufin interview. Outstanding performance!"
     elif pct >= 60:
-        emoji = "🙂"
-        grade_label = "Good Job"
-        grade_color = "#f59e0b"
+        emoji, grade_label, grade_color = "🙂", "Good Job", "#f59e0b"
         grade_msg = "Solid foundation! Review the missed questions and you'll nail it."
     else:
-        emoji = "😬"
-        grade_label = "Keep Studying"
-        grade_color = "#ef4444"
+        emoji, grade_label, grade_color = "😬", "Keep Studying", "#ef4444"
         grade_msg = "Don't worry — practice makes perfect. Review and try again!"
 
-    # Confetti JS for >80%
     if pct >= 80:
         st.markdown(
             """
             <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
             <script>
             setTimeout(function(){
-                confetti({
-                    particleCount: 180,
-                    spread: 90,
-                    origin: { y: 0.4 },
-                    colors: ['#2e7df7','#5aa3ff','#00c2cb','#22c55e','#ffffff']
-                });
+                confetti({particleCount:180,spread:90,origin:{y:0.4},
+                    colors:['#2e7df7','#5aa3ff','#00c2cb','#22c55e','#ffffff']});
             }, 300);
             </script>
             """,
@@ -784,61 +864,55 @@ elif st.session_state.page == "results":
     st.markdown(
         f"""
         <div class='score-card'>
-            <div style='font-size:3.5rem; margin-bottom:4px;'>{emoji}</div>
-            <div style='font-size:1.2rem; color:#8fa3c0; margin-bottom:4px;'>Quiz Complete!</div>
-            <div class='score-number'>{score}<span style='font-size:1.8rem; color:#8fa3c0;'>/{total}</span></div>
+            <div style='font-size:3.5rem;margin-bottom:4px;'>{emoji}</div>
+            <div style='font-size:1.1rem;color:#8fa3c0;margin-bottom:4px;'>Quiz Complete!</div>
+            <div class='score-number'>{score}<span style='font-size:1.8rem;color:#8fa3c0;'>/{total}</span></div>
             <div class='score-label'>questions correct</div>
-            <div class='score-pct' style='color:{grade_color};'>{pct}%</div>
-            <div style='font-size:1.1rem; font-weight:600; color:{grade_color}; margin-top:4px;'>{grade_label}</div>
-            <div style='font-size:0.9rem; color:#8fa3c0; margin-top:8px;'>{grade_msg}</div>
+            <div style='font-size:1.8rem;font-weight:700;color:{grade_color};margin-top:10px;'>{pct}%</div>
+            <div style='font-size:1.05rem;font-weight:600;color:{grade_color};margin-top:2px;'>{grade_label}</div>
+            <div style='font-size:0.88rem;color:#8fa3c0;margin-top:8px;'>{grade_msg}</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # ── Category Breakdown ────────────────────────────────────────────────────
     st.markdown("### 📊 Category Breakdown")
     breakdown = category_breakdown()
-
-    for cat, data in breakdown.items():
-        c_pct = round((data["correct"] / data["total"]) * 100) if data["total"] else 0
+    for cat, data in sorted(breakdown.items()):
+        c_score = data["correct"]
+        c_total = data["total"]
+        c_pct = round((c_score / c_total) * 100) if c_total else 0
         bar_color = (
-            "#22c55e" if c_pct >= 80 else "#f59e0b" if c_pct >= 60 else "#ef4444"
+            "#22c55e" if c_pct >= 70 else "#f59e0b" if c_pct >= 50 else "#ef4444"
         )
-        icon = cat_icons.get(cat, "📌") if "cat_icons" in dir() else "📌"
         st.markdown(
-            f"""
-            <div style='background:#111f38; border:1px solid #1e3a6e; border-radius:10px;
-                        padding:14px 18px; margin-bottom:10px;'>
-                <div style='display:flex; justify-content:space-between; align-items:center;
-                            margin-bottom:6px;'>
-                    <span style='font-weight:600; font-size:0.92rem;'>{cat}</span>
-                    <span style='font-size:0.88rem; color:{bar_color}; font-weight:700;'>
-                        {data["correct"]}/{data["total"]} ({c_pct}%)
-                    </span>
-                </div>
-                <div style='background:#1a2e50; border-radius:4px; height:6px;'>
-                    <div style='background:{bar_color}; width:{c_pct}%; height:6px;
-                                border-radius:4px; transition:width 0.5s;'></div>
-                </div>
-            </div>
-            """,
+            f"<div style='background:var(--card-bg);border:1px solid var(--card-bdr);"
+            f"border-radius:10px;padding:14px 18px;margin-bottom:10px;'>"
+            f"<div style='display:flex;justify-content:space-between;align-items:center;"
+            f"margin-bottom:8px;'>"
+            f"<span style='font-weight:600;color:#e8edf5;font-size:0.92rem;'>{cat}</span>"
+            f"<span style='font-weight:700;color:{bar_color};font-size:0.92rem;'>"
+            f"{c_score}/{c_total} &nbsp;({c_pct}%)</span>"
+            f"</div>"
+            f"<div style='background:#1a2e50;border-radius:4px;height:6px;'>"
+            f"<div style='background:{bar_color};width:{c_pct}%;height:6px;"
+            f"border-radius:4px;transition:width 0.4s ease;'></div>"
+            f"</div>"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
-    st.markdown("---")
-
-    # ── Action buttons ────────────────────────────────────────────────────────
-    col1, col2, col3 = st.columns(3)
-    with col1:
+    st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+    col_a, col_b, col_c = st.columns(3)
+    with col_a:
         if st.button("🔍 Review Answers", use_container_width=True):
             go_review()
             st.rerun()
-    with col2:
+    with col_b:
         if st.button("🔄 New Quiz", use_container_width=True):
             start_quiz()
             st.rerun()
-    with col3:
+    with col_c:
         if st.button("🏠 Home", use_container_width=True):
             go_home()
             st.rerun()
@@ -849,110 +923,77 @@ elif st.session_state.page == "results":
 # ─────────────────────────────────────────────────────────────────────────────
 elif st.session_state.page == "review":
     questions = st.session_state.questions
-    total = len(questions)
     score = compute_score()
-    pct = round((score / total) * 100) if total else 0
+    total = len(questions)
 
+    st.markdown("## 🔍 Review Your Answers")
     st.markdown(
-        f"<h2 style='margin-bottom:4px;'>🔍 Answer Review</h2>"
-        f"<p style='color:#8fa3c0; font-size:0.9rem; margin-bottom:20px;'>"
-        f"Score: <b style='color:#5aa3ff;'>{score}/{total}</b> ({pct}%) — "
-        f"scroll through all questions below</p>",
+        f"<p style='color:#8fa3c0;margin-bottom:20px;'>"
+        f"You scored <b style='color:#5aa3ff;'>{score}/{total}</b>. "
+        f"Expand any question to see the full explanation.</p>",
         unsafe_allow_html=True,
     )
 
-    # Filter toggle
-    filter_choice = st.radio(
-        "Show:",
-        ["All Questions", "Incorrect Only", "Correct Only"],
-        horizontal=True,
-        label_visibility="visible",
-    )
-
-    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+    filter_options = ["All", "✅ Correct Only", "❌ Incorrect Only"]
+    review_filter = st.selectbox("Filter", filter_options, label_visibility="collapsed")
 
     for i, q in enumerate(questions):
-        user_ans = st.session_state.answers.get(i, None)
-        is_correct = user_ans == q["answer"] if user_ans else False
-        was_answered = user_ans is not None
+        user_ans = st.session_state.answers.get(i, "—")
+        correct_ans = q["answer"]
+        is_correct = user_ans == correct_ans
 
-        # Apply filter
-        if filter_choice == "Incorrect Only" and is_correct:
+        if review_filter == "✅ Correct Only" and not is_correct:
             continue
-        if filter_choice == "Correct Only" and not is_correct:
+        if review_filter == "❌ Incorrect Only" and is_correct:
             continue
 
+        result_icon = "✅" if is_correct else "❌"
         border_class = "review-correct" if is_correct else "review-incorrect"
-        status_icon = "✅" if is_correct else "❌"
-        status_color = "#22c55e" if is_correct else "#ef4444"
 
         with st.expander(
-            f"{status_icon}  Q{i + 1}: {q['question'][:90]}{'...' if len(q['question']) > 90 else ''}",
-            expanded=False,
+            f"{result_icon}  Q{i + 1}: {q['question'][:80]}{'…' if len(q['question']) > 80 else ''}"
         ):
             st.markdown(
-                f"<div class='category-badge'>{q['category']}</div>",
+                f"<div class='review-item {border_class}'>"
+                f"<div class='review-q-num'>{q['category']} — Question {i + 1}</div>"
+                f"<div class='review-q-text'>{q['question']}</div>",
                 unsafe_allow_html=True,
             )
-            st.markdown(
-                f"<div style='font-size:1rem; font-weight:500; margin-bottom:12px; line-height:1.5;'>"
-                f"{q['question']}"
-                f"</div>",
-                unsafe_allow_html=True,
-            )
-
-            # Options with colour coding
             for j, opt in enumerate(q["options"]):
-                letter = letter_for(j)
-                is_correct_opt = opt == q["answer"]
-                is_user_opt = opt == user_ans
-
-                if is_correct_opt and is_user_opt:
-                    icon_opt = "✅"
-                    color = "#22c55e"
-                    weight = "700"
-                elif is_correct_opt:
-                    icon_opt = "✔"
-                    color = "#22c55e"
-                    weight = "600"
-                elif is_user_opt:
-                    icon_opt = "✗"
-                    color = "#ef4444"
-                    weight = "600"
+                if opt == correct_ans:
+                    cls = "option-correct"
+                    pfx = "✅"
+                elif opt == user_ans and not is_correct:
+                    cls = "option-wrong"
+                    pfx = "❌"
                 else:
-                    icon_opt = "○"
-                    color = "#4a6080"
-                    weight = "400"
-
+                    cls = "option-neutral"
+                    pfx = "○"
                 st.markdown(
-                    f"<div style='font-size:0.875rem; color:{color}; font-weight:{weight}; "
-                    f"padding:4px 0;'>{icon_opt} {letter}. {opt}</div>",
+                    f"<div class='review-answer-row'>"
+                    f"<span class='{cls}'>{pfx}  {letter_for(j)}.  {opt}</span>"
+                    f"</div>",
                     unsafe_allow_html=True,
                 )
-
             st.markdown(
-                f"<div style='background:rgba(46,125,247,0.08); border-left:3px solid #2e7df7; "
-                f"padding:10px 14px; border-radius:0 6px 6px 0; margin-top:12px; "
-                f"font-size:0.875rem; color:#b8cce4; line-height:1.55;'>"
-                f"<b style='color:#5aa3ff;'>💡 Explanation:</b> {q['explanation']}"
+                f"<div style='margin-top:12px;padding-top:10px;"
+                f"border-top:1px solid #1e3a6e;'>"
+                f"<span style='font-size:0.8rem;font-weight:600;color:#5aa3ff;"
+                f"text-transform:uppercase;letter-spacing:0.6px;'>Explanation</span><br>"
+                f"<span style='font-size:0.9rem;color:#b8cce4;line-height:1.6;'>"
+                f"{q['explanation']}</span>"
+                f"</div>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
-
-            if not was_answered:
-                st.markdown(
-                    "<div style='color:#f59e0b; font-size:0.83rem; margin-top:8px;'>"
-                    "⚠️ This question was not answered.</div>",
-                    unsafe_allow_html=True,
-                )
 
     st.markdown("---")
-    col1, col2 = st.columns(2)
-    with col1:
+    col_a, col_b = st.columns(2)
+    with col_a:
         if st.button("📊 Back to Results", use_container_width=True):
             go_results()
             st.rerun()
-    with col2:
+    with col_b:
         if st.button("🔄 New Quiz", use_container_width=True):
             start_quiz()
             st.rerun()
