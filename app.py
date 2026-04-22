@@ -14,13 +14,37 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Inject Material Symbols Rounded font into <head> via JS.
+# st.markdown @import lives in <body> so some browsers ignore it; a <link> in
+# <head> is the spec-correct place and is always honoured.
+# display=block prevents any flash of raw ligature text while the font loads.
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown(
+    """
+    <script>
+    (function () {
+        var id = 'msymbols-font-link';
+        if (document.getElementById(id)) return;
+        var link = document.createElement('link');
+        link.id   = id;
+        link.rel  = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded'
+                  + ':opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block';
+        document.head.appendChild(link);
+    })();
+    </script>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Custom CSS — Tufin dark theme with full visibility fix
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block');
 
     :root {
         --t-dark:    #0a1628;
@@ -327,18 +351,49 @@ st.markdown(
     hr { border-color: var(--card-bdr) !important; margin: 24px 0 !important; }
 
     /* ── Material Symbols — ensures sidebar arrow icon renders as icon, not text ── */
-    /* Without this, mobile browsers that fail to load the font show the literal  */
-    /* ligature text e.g. "keyboard_double_arrow_right" instead of the >> glyph.  */
+    /* Our rule uses !important so it wins over any conflicting injected styles.   */
+    /* font-feature-settings:'liga' is REQUIRED — without it the ligature text    */
+    /* (e.g. "keyboard_double_arrow_right") is never converted to a glyph.        */
     .material-symbols-rounded {
-        font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
-        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24 !important;
+        font-family: 'Material Symbols Rounded', sans-serif !important;
+        font-weight: normal !important;
+        font-style: normal !important;
         font-size: 24px !important;
         line-height: 1 !important;
         letter-spacing: normal !important;
         text-transform: none !important;
         display: inline-block !important;
         white-space: nowrap !important;
+        word-wrap: normal !important;
+        direction: ltr !important;
         -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: optimizeLegibility !important;
+        font-feature-settings: 'liga' !important;
+        -webkit-font-feature-settings: 'liga' !important;
+    }
+
+    /* ── Hard CSS fallback: if the font still doesn't render, hide the raw       */
+    /* ligature text and show a simple arrow so the button stays usable.          */
+    /* Works by zeroing font-size on the span text, then drawing via ::after.     */
+    [data-testid="collapsedControl"] span[class*="material"],
+    [data-testid="collapsedControl"] span[class*="Material"] {
+        font-size: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+    [data-testid="collapsedControl"] span[class*="material"]::after,
+    [data-testid="collapsedControl"] span[class*="Material"]::after {
+        font-family: 'Material Symbols Rounded', sans-serif !important;
+        font-feature-settings: 'liga' !important;
+        -webkit-font-feature-settings: 'liga' !important;
+        font-size: 1.5rem !important;
+        content: 'keyboard_double_arrow_right' !important;
+        color: #8fa3c0 !important;
+        line-height: 1 !important;
     }
 
     /* ── Mobile responsive ── */
