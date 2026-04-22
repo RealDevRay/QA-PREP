@@ -387,11 +387,9 @@ st.markdown(
     }
     [data-testid="collapsedControl"] span[class*="material"]::after,
     [data-testid="collapsedControl"] span[class*="Material"]::after {
-        font-family: 'Material Symbols Rounded', sans-serif !important;
-        font-feature-settings: 'liga' !important;
-        -webkit-font-feature-settings: 'liga' !important;
-        font-size: 1.5rem !important;
-        content: 'keyboard_double_arrow_right' !important;
+        font-family: system-ui, -apple-system, sans-serif !important;
+        font-size: 1.2rem !important;
+        content: '❯' !important;
         color: #8fa3c0 !important;
         line-height: 1 !important;
     }
