@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="Tufin QA Interview Prep",
     page_icon="🛡️",
     layout="centered",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="auto",
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
