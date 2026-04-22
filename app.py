@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="Tufin QA Interview Prep",
     page_icon="🛡️",
     layout="centered",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -20,6 +20,7 @@ st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
     :root {
         --t-dark:    #0a1628;
@@ -324,6 +325,113 @@ st.markdown(
     .option-neutral { color: var(--t-muted)   !important; }
 
     hr { border-color: var(--card-bdr) !important; margin: 24px 0 !important; }
+
+    /* ── Material Symbols — ensures sidebar arrow icon renders as icon, not text ── */
+    /* Without this, mobile browsers that fail to load the font show the literal  */
+    /* ligature text e.g. "keyboard_double_arrow_right" instead of the >> glyph.  */
+    .material-symbols-rounded {
+        font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24 !important;
+        font-size: 24px !important;
+        line-height: 1 !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
+        display: inline-block !important;
+        white-space: nowrap !important;
+        -webkit-font-smoothing: antialiased !important;
+    }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 768px) {
+        /* Tighter page padding */
+        .block-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-top: 1.5rem !important;
+            max-width: 100% !important;
+        }
+
+        /* Headings scale down */
+        h1 { font-size: 1.45rem !important; }
+        h2 { font-size: 1.2rem  !important; }
+        h3 { font-size: 1.05rem !important; }
+
+        /* Welcome banner */
+        .welcome-banner {
+            padding: 20px 16px !important;
+            border-radius: 12px !important;
+        }
+
+        /* Quiz card */
+        .quiz-card {
+            padding: 16px !important;
+            border-radius: 10px !important;
+        }
+        .question-text { font-size: 1rem !important; }
+
+        /* Score card */
+        .score-card { padding: 22px 16px !important; }
+        .score-number { font-size: 2.8rem !important; }
+
+        /* Instruction box */
+        .instruction-box { padding: 14px !important; }
+
+        /* Feedback boxes */
+        .feedback-correct,
+        .feedback-incorrect { padding: 12px 14px !important; }
+
+        /* Review item */
+        .review-item { padding: 14px !important; }
+
+        /* Stack ALL Streamlit columns into a single vertical flow on mobile.   */
+        /* This handles: 3-metric row, 2-col category grid, 3-button results   */
+        /* row, Submit+Quit pair, Next+Quit pair, and Review button pair.       */
+        [data-testid="stHorizontalBlock"] {
+            flex-wrap: wrap !important;
+            gap: 0 !important;
+        }
+        [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+            min-width: 100% !important;
+            flex: 1 1 100% !important;
+        }
+
+        /* Option card buttons — slightly smaller text on small screens */
+        .opt-btn-wrap .stButton > button,
+        .opt-btn-selected .stButton > button,
+        .opt-btn-correct .stButton > button,
+        .opt-btn-wrong .stButton > button,
+        .opt-btn-neutral .stButton > button {
+            font-size: 0.9rem !important;
+            padding: 12px 14px !important;
+        }
+
+        /* General buttons */
+        .stButton > button {
+            font-size: 0.9rem !important;
+            padding: 10px 16px !important;
+        }
+
+        /* Sidebar toggle button — make it larger for easier tapping */
+        [data-testid="collapsedControl"] {
+            top: 0.5rem !important;
+        }
+        [data-testid="collapsedControl"] button {
+            width: 2.4rem !important;
+            height: 2.4rem !important;
+        }
+    }
+
+    /* ── Very small screens (≤ 480px) ── */
+    @media (max-width: 480px) {
+        h1 { font-size: 1.25rem !important; }
+        .welcome-banner { padding: 16px 12px !important; }
+        .score-number   { font-size: 2.4rem !important; }
+        .quiz-card      { padding: 12px !important; }
+        .block-container {
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+        }
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -566,11 +674,9 @@ if st.session_state.page == "home":
             f"</div>",
             unsafe_allow_html=True,
         )
-        _, mid, _ = st.columns([1, 2, 1])
-        with mid:
-            if st.button("🚀 Start Quiz", use_container_width=True):
-                start_quiz()
-                st.rerun()
+        if st.button("🚀 Start Quiz", use_container_width=True):
+            start_quiz()
+            st.rerun()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
