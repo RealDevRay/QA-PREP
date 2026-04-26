@@ -485,6 +485,18 @@ st.markdown(
             padding-right: 0.75rem !important;
         }
     }
+    /* ── Category solo-quiz buttons ── */
+    [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] .stButton > button {
+        background: rgba(46,125,247,0.08) !important;
+        border: 1px solid rgba(46,125,247,0.25) !important;
+        color: #5aa3ff !important;
+        font-size: 0.78rem !important;
+        padding: 4px 8px !important;
+        border-radius: 0 0 8px 8px !important;
+        box-shadow: none !important;
+        font-weight: 500 !important;
+        margin-top: -2px !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -586,13 +598,25 @@ with st.sidebar:
         "📚 Categories</p>",
         unsafe_allow_html=True,
     )
+    # "All" / "Clear" quick-select buttons
+    _c_all, _c_clr = st.columns(2)
+    with _c_all:
+        if st.button("✅ All", use_container_width=True, key="cats_select_all"):
+            st.session_state.selected_categories = list(ALL_CATEGORIES)
+            st.rerun()
+    with _c_clr:
+        if st.button("🗑️ Clear", use_container_width=True, key="cats_clear_all"):
+            st.session_state.selected_categories = []
+            st.rerun()
+
     selected_cats = st.multiselect(
         "categories",
         options=ALL_CATEGORIES,
         default=st.session_state.selected_categories,
         label_visibility="collapsed",
     )
-    if selected_cats:
+    # Allow empty selection (so user can start fresh and pick one category)
+    if selected_cats is not None:
         st.session_state.selected_categories = selected_cats
 
     st.markdown(
@@ -635,7 +659,7 @@ with st.sidebar:
         "<div style='margin-top:32px;font-size:0.72rem;color:#4a6080;"
         "text-align:center;line-height:1.6;'>"
         "Built for Tufin QA<br>Automation Engineer prep<br>"
-        "<span style='color:#2e7df7;'>150+ questions · 6 categories</span>"
+        "<span style='color:#2e7df7;'>155+ questions · 6 categories</span>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -698,15 +722,26 @@ if st.session_state.page == "home":
     for i, cat in enumerate(ALL_CATEGORIES):
         icon = cat_icons.get(cat, "📌")
         cnt = len([q for q in QUESTIONS if q["category"] == cat])
-        cols[i % 2].markdown(
-            f"<div style='background:rgba(255,255,255,0.03);border:1px solid #1e3a6e;"
-            f"border-radius:8px;padding:10px 14px;margin-bottom:8px;'>"
-            f"<span style='font-size:1.1rem;'>{icon}</span> "
-            f"<span style='font-weight:600;color:#e8edf5;'>{cat}</span> "
-            f"<span style='color:#8fa3c0;font-size:0.83rem;'>({cnt} questions)</span>"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
+        with cols[i % 2]:
+            st.markdown(
+                f"<div style='background:rgba(255,255,255,0.03);border:1px solid #1e3a6e;"
+                f"border-radius:8px;padding:10px 14px;margin-bottom:4px;'>"
+                f"<span style='font-size:1.1rem;'>{icon}</span> "
+                f"<span style='font-weight:600;color:#e8edf5;'>{cat}</span> "
+                f"<span style='color:#8fa3c0;font-size:0.83rem;'>({cnt} q)</span>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+            if st.button(
+                "▶ Solo Quiz",
+                key=f"solo_{cat}",
+                use_container_width=True,
+            ):
+                st.session_state.selected_categories = [cat]
+                st.session_state.question_count = "All"
+                start_quiz()
+                st.rerun()
+            st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
 
     st.markdown("---")
 
