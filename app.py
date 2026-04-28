@@ -17,6 +17,28 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Inject Material Symbols font into <head> so Streamlit's expander arrow
+# renders as an icon and not as raw ligature text (e.g. "keyboard_arrow_right")
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown(
+    """
+    <script>
+    (function () {
+        var id = 'msymbols-font-link';
+        if (document.getElementById(id)) return;
+        var link = document.createElement('link');
+        link.id   = id;
+        link.rel  = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded'
+                  + ':opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block';
+        document.head.appendChild(link);
+    })();
+    </script>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ─────────────────────────────────────────────────────────────────────────────
 # CSS — dark Tufin theme
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown(
@@ -350,6 +372,46 @@ hr { border-color: var(--card-bdr) !important; margin: 20px 0 !important; }
 .layer-red    { border-left: 4px solid #e74c3c; background: rgba(231,76,60,0.08);  border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
 .layer-green  { border-left: 4px solid #27ae60; background: rgba(39,174,96,0.08);  border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
 .layer-purple { border-left: 4px solid #8e44ad; background: rgba(142,68,173,0.08); border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
+
+/* ── Material Symbols — font-feature-settings:'liga' is REQUIRED for ligature
+   glyphs to render. Without it the raw text appears in the expander label. ── */
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded', sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    display: inline-block !important;
+    white-space: nowrap !important;
+    word-wrap: normal !important;
+    direction: ltr !important;
+    -webkit-font-smoothing: antialiased !important;
+    text-rendering: optimizeLegibility !important;
+    font-feature-settings: 'liga' !important;
+    -webkit-font-feature-settings: 'liga' !important;
+}
+
+/* Hard CSS fallback: if the font still hasn't loaded, hide the raw ligature
+   text and draw a simple arrow via ::after so the expander stays usable. */
+[data-testid="collapsedControl"] span[class*="material"],
+[data-testid="collapsedControl"] span[class*="Material"] {
+    font-size: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+}
+[data-testid="collapsedControl"] span[class*="material"]::after,
+[data-testid="collapsedControl"] span[class*="Material"]::after {
+    font-family: system-ui, -apple-system, sans-serif !important;
+    font-size: 1.2rem !important;
+    content: '\276F' !important;
+    color: #8fa3c0 !important;
+    line-height: 1 !important;
+}
 
 /* Mobile */
 @media (max-width: 768px) {
